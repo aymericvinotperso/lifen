@@ -6,8 +6,9 @@ Avec le code final, il en prend 1,4 soit perf x10
 Si on passe l’id du practitionner en param (use case supposé probable - e.g. on veut afficher sur une app mobile les communications du practitionner connecté), on passe à 64 ms soit perfs x200
 
 Modifications proposées :
-Refacto de la requête : au lieu d’aller chercher toutes les communications puis d’itérer sur chacune d’entre elles pour récupérer les infos du practitionner, on précharge les communications et les practitionners via includes. On permet également de passer un practitionner_id en paramètre.
-Créer une vue dédiée pour api/index (best practice de ce que j’ai compris ?)
+Refacto de la requête : au lieu d’aller chercher toutes les communications puis d’itérer sur chacune d’entre elles pour récupérer les infos du practitionner, on précharge les communications et les practitionners via includes. 
+On permet également de passer un practitionner_id en paramètre.
+J'ai également créé une vue dédiée pour api/index (best practice de ce que j’ai compris).
 
 ---
 
