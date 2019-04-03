@@ -1,7 +1,6 @@
 # rspec app_spec.rb
 
 require 'rspec'
-
 require_relative './app.rb'
 
 RSpec.describe "Prices calculator", type: :model do
