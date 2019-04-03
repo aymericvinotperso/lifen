@@ -37,9 +37,8 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -d '{
 	"communication" : {
-		"first_name" : "Fritz",
-		"last_name" : "Kertzmann",
-		"sent_at" : "2019-01-01"
+		"practitioner_id" : 30301,
+		"sent_at" : "2021-01-01"
 	}
 }'
 ```

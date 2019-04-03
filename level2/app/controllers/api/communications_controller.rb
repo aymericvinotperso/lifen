@@ -1,21 +1,32 @@
 class Api::CommunicationsController < ApplicationController
 
   def create
-    practitioner = Practitioner.where(first_name: communication_params[:first_name], last_name: communication_params[:last_name]).first
-
-    communication = Communication.new(practitioner_id: practitioner.id, sent_at: communication_params[:sent_at])
-
-    communication.save
-
-    render json: communication.to_json, status: :created
+    @communication = Communication.new(communication_params)
+    if @communication.save
+      render :index, status: :created
+    else
+      render_error
+    end
   end
 
   def index
-    render json: Communication.all.to_json, status: :ok
+    if params[:practitioner_id].blank?
+      @communications = Communication.includes(:practitioner)
+    else
+      @communications = Communication.where(practitioner_id: params[:practitioner_id])
+    end
+    @communications
+  end
+
+  private
+
+  def render_error
+    render json: { errors: @communication.errors.full_messages },
+      status: :unprocessable_entity
   end
 
   def communication_params
-    params.require(:communication).permit(:first_name, :last_name, :sent_at)
+    params.require(:communication).permit(:practitioner_id, :sent_at)
   end
 
 end
