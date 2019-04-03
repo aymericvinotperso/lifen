@@ -1,46 +1,18 @@
-# Niveau 2
+Index
 
-Nous venons de recevoir le MVP de notre application de communication e-santé. Nous souhaitons une API avec 2 endpoints pour créer une `Communication` puis pour consulter toutes les `Communication` émises.
+Perfs testées via Postman,
+Avec le code initial, un appel sur /communications prend 13,5 secondes
+Avec le code final, il en prend 1,4 soit perf x10
+Si on passe l’id du practitionner en param (use case supposé probable - e.g. on veut afficher sur une app mobile les communications du practitionner connecté), on passe à 64 ms soit perfs x200
 
-Voici les instructions pour lancer l'application :
+Modifications proposées :
+Refacto de la requête : au lieu d’aller chercher toutes les communications puis d’itérer sur chacune d’entre elles pour récupérer les infos du practitionner, on précharge les communications et les practitionners via includes. On permet également de passer un practitionner_id en paramètre.
+Créer une vue dédiée pour api/index (best practice de ce que j’ai compris ?)
 
-```bash
-bundle install
-rails db:create
-rails db:migrate
-rake populate:init
-rails server
-```
+---
 
-Cela vous permettra d'avoir une application rails avec un volume de donnée similaire à notre prédictions d'usage.
+Create
 
-Nos premiers utilisateurs nous ont signalé que l'application était particulièrement lente ...
+J’ai supposé qu’on avait forcément l’id du practitionner à disposition (e.g. via current_user) ; je ne vois pas dans quel use case on voudrait créer un communication simplement à partir d’un nom et prénom (risque de doublons, homonymes).
 
-La consigne principale pour ce niveau est d'améliorer ces 2 endpoints.
-Nous attendons une approche data driven ainsi que des explications claires sur les améliorations proposées.
-
-## Endpoints
-
-### Lister les `Communication`
-
-```bash
-curl -X GET http://localhost:3000/api/communications -H 'Content-Type: application/json'
-```
-
-### Créer une `Communication`
-
-Pour cet exemple vous aurez besoin de créer un `Practitioner` en amont via : `Practitioner.create(first_name: 'Fritz', last_name: 'Kertzmann')`
-
-```bash
-curl -X POST \
-  http://localhost:3000/api/communications \
-  -H 'Content-Type: application/json' \
-  -d '{
-	"communication" : {
-		"practitioner_id" : 30301,
-		"sent_at" : "2021-01-01"
-	}
-}'
-```
-
-
+A améliorer : je ne sais honnêtement pas trop ce qu’il faudrait “render" une fois l’appel API validé
