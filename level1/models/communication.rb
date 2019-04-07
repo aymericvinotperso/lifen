@@ -1,3 +1,5 @@
+require 'date'
+
 class Communication
   attr_reader :practitioner
 
@@ -22,6 +24,6 @@ class Communication
   end
 
   def day_sent_at
-    @sent_at[0..9]
+    DateTime.parse(@sent_at).to_date
   end
 end
