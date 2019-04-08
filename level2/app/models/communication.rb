@@ -1,5 +1,7 @@
 class Communication < ApplicationRecord
   belongs_to :practitioner
+  validates :practitioner, presence: true
+  validates :sent_at, presence: true
 
   ## Why do we need that ?
   # def as_json(options = nil)
