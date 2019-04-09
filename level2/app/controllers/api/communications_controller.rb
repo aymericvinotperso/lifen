@@ -15,7 +15,7 @@ class Api::CommunicationsController < ApplicationController
     else
       @communications = Communication.where(practitioner_id: params[:practitioner_id])
     end
-    @communications
+    @communications = @communications.paginate(page: params[:page], per_page: 100)
   end
 
   private

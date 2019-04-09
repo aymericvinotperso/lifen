@@ -3,3 +3,5 @@ json.communications @communications do |communication|
   json.first_name communication.practitioner.first_name
   json.last_name communication.practitioner.last_name
 end
+
+will_paginate @communications
