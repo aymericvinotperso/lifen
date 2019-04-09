@@ -1,23 +1,19 @@
 require "json"
-require_relative 'models/practitioner'
 require_relative 'models/communication'
 
 # First, let's define the function to create our instances variables, from the json data
 json_data = JSON.parse(File.read('data.json'))
 
 def generate_communications(json_data)
-  prac_from_json = json_data["practitioners"]
-  comm_from_json = json_data["communications"]
-  practitioners = []
+  practitioners_hash = {}
   communications = []
 
-  prac_from_json.each do |prac|
-    practitioners << Practitioner.new(prac["id"], prac["first_name"], prac["last_name"], prac["express_delivery"])
+  json_data["practitioners"].each do |prac|
+    practitioners_hash[prac["id"]] = prac["express_delivery"]
   end
 
-  comm_from_json.each do |com|
-    this_prac = practitioners.select { |practitioner| practitioner.id == com["practitioner_id"]} [0]
-    communications << Communication.new(com["id"], com["pages_number"], com["color"], com["sent_at"], this_prac)
+  json_data["communications"].each do |com|
+    communications << Communication.new(com["id"], com["pages_number"], com["color"], com["sent_at"], practitioners_hash[com["practitioner_id"]])
   end
 
   communications
